@@ -20,7 +20,6 @@ pipeline{
                 sh "git checkout ${GIT_BRANCH}"
             }
         }
-
         stage("build"){
             when{
                 anyOf {
@@ -108,6 +107,14 @@ pipeline{
     post{
         always{
             echo "========piplen ended!!!!!!!!!!!!!!!!!!========"
+            emailext body: """Build Report
+                    Project: ${env.JOB_NAME} 
+                    Build Number: ${env.BUILD_NUMBER}
+                    Build status is ${currentBuild.currentResult}
+                    to see the full resolte enter: ${env.BUILD_URL}""",
+                recipientProviders: [developers(), requestor()],
+                subject: 'tests resulte: Project name -> ${JOB_NAME}',
+                attachLog: true
         }
         success{
             echo "========pipeline executed successfully ========"
