@@ -1,16 +1,21 @@
 pipeline{
     agent any
     options{
+        
+        // set time stamps on the log
         timestamps()
+        
+        // set gitlab connection where to sent an update
         gitLabConnection('stuff')
-
     }
     tools {
+        // set tools to work with 
         maven "some name"
         jdk "java ledugma"
     }
     
     stages{
+        // check out and clean the workdir
         stage("checkout"){
             steps{
                 echo "========checking out (loking hella fine)========"
@@ -20,7 +25,9 @@ pipeline{
                 sh "git checkout ${GIT_BRANCH}"
             }
         }
+        
         stage("build"){
+            // happend only on branch main or feature
             when{
                 anyOf {
                     branch "main"
@@ -48,6 +55,7 @@ pipeline{
             }
         }
         stage("tests"){
+            // happend only on branch main or feature
             when{
                 anyOf {
                     branch "main"
@@ -76,21 +84,30 @@ pipeline{
             }
         }
         stage("deploy"){
+            // happend only on branch main 
             when{
                 anyOf {
                     branch "main"
                 }
             }
+            
             steps{
                 echo "========executing deploy========"
-                sh "docker tag  toxictypoapp:1.0-SNAPSHOT dvir-toxictypo "
+                
+                // taging the image so i will be able to send it to the repo
+                sh "docker tag toxictypoapp:1.0-SNAPSHOT dvir-toxictypo "
+                
+                // publish the image to the ecr
                 script{
                     docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
                         docker.image("dvir-toxictypo").push()
                     }
                 }
+                
+                //deploying the new image to the production ec2
                 sh "ssh ubuntu@13.39.47.121 bash init.sh"
             }
+            
             post{
                 always{
                     echo "========deploy are done========"
@@ -107,6 +124,8 @@ pipeline{
     post{
         always{
             echo "========piplen ended!!!!!!!!!!!!!!!!!!========"
+            
+            // sending emails 
             emailext body: """Build Report
                     Project: ${env.JOB_NAME} 
                     Build Number: ${env.BUILD_NUMBER}
@@ -118,10 +137,14 @@ pipeline{
         }
         success{
             echo "========pipeline executed successfully ========"
+            
+            // updating the git status to the git reposetory 
             updateGitlabCommitStatus name: "all good", state: "success" 
         }
         failure{
             echo "========pipeline execution failed========"
+            
+            // updating the git status to the git reposetory 
             updateGitlabCommitStatus name: "error", state: "failed" 
         }
     }
