@@ -16,6 +16,25 @@ pipeline{
                 sh "git checkout ${GIT_BRANCH}"
             }
         }
+        stage("build"){
+            steps{
+                echo "========executing build========"
+                withMaven {
+                    sh "mvn verify"
+                }                
+            }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
+            }
+        }
         stage("A"){
             steps{
                 echo "========executing A========"
