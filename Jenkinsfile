@@ -89,6 +89,7 @@ pipeline{
                         docker.image("dvir-toxictypo").push()
                     }
                 }
+                sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu"
                 sh "ssh ubuntu@13.39.47.121 bash init.sh"
             }
             post{
