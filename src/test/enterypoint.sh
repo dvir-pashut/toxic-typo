@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 cat e2e | head -n 50 > e2e.1-50
 cat e2e | head -n 100 | tail -n 50 > e2e.51-100
