@@ -30,4 +30,4 @@ done
 cat e2e | head -n 400 | tail -n 50 > e2e.file
 python e2e_test.py tox-app:8080 e2e.file 1 
 
- 
+sleep 5
