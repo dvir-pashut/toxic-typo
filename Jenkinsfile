@@ -42,8 +42,8 @@ pipeline{
             steps{
                 echo "========executing A========"
                 sh "docker run -d --network test-net --name tests-app -v \$(pwd)/src/test/:/tests python:2.7.18"
-                sh "docker exec -it tests-app pip install -r /tests/requirments.txt"
-                sh "docker exec -it tests-app python tests/e2e_test.py tox-app:8080 tests/e2e 2"
+                sh "docker exec tests-app pip install -r /tests/requirments.txt"
+                sh "docker exec tests-app python tests/e2e_test.py tox-app:8080 tests/e2e 2"
                 sh "docker rm -f tox-app tests-app"
             }
             post{
