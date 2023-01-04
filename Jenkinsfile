@@ -81,12 +81,11 @@ pipeline{
             steps{
                 echo "========executing deploy========"
                 script{
-                docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
-                    docker.image("dvir-toxictypo").push()
-                
+                    docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
+                        docker.image("dvir-toxictypo").push()
+                    
+                    }
                 }
-            }
-                
             }
             post{
                 always{
