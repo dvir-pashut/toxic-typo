@@ -42,6 +42,7 @@ pipeline{
                 }
                 sh "docker network create test-net || { echo alreadyexist; }"
                 sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHOT"
+                sh "docker run -d --network test-net --name tox-app2 toxictypoapp:1.0-SNAPSHOT"
             }
             post{
                 always{
@@ -69,8 +70,8 @@ pipeline{
                     cd src/test
                     docker build -t test-app .
                     sleep 2
-                    docker run --network test-net --name tests-app -e key=200 -e t=0  test-app:latest &
-                    docker run --network test-net --name tests-app2 -e key=400 -e t=200 test-app:latest
+                    docker run --network test-net --name tests-app -e key=200 -e t=25 -e app=tox-app:8080 test-app:latest &
+                    docker run --network test-net --name tests-app2 -e key=400 -e t=200 -e app=tox-app2:8080 test-app:latest
                 """
                 
 
@@ -79,7 +80,7 @@ pipeline{
             post{
                 always{
                     echo "========tests are done========"
-                    sh "docker rm -f tests-app2 tests-app tox-app"
+                    sh "docker rm -f tests-app2 tests-app tox-app tox-app2 "
                 }
                 success{
                     echo "========tests executed successfully========"
