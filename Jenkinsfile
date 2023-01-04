@@ -47,7 +47,7 @@ pipeline{
                 sh """
                     cd src/test
                     docker build -t test-app .
-                    sleep 6
+                    sleep 7
                 """
             }
             post{
