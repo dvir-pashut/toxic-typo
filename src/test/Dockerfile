@@ -5,4 +5,4 @@ ENV file=sanity
 
 RUN pip install -r requirments.txt
 
-ENTRYPOINT [ "python", "e2e_test.py", "tox-app:8080", "${file}", "5" ]
+ENTRYPOINT [ "python", "e2e_test.py", "tox-app:8080", "$file", "5" ]
