@@ -24,7 +24,7 @@ pipeline{
                     sh "mvn verify"
                 }
                 sh "docker network create test-net || { echo alreadyexist; }"
-                sh "docker run -d --network test-net --name tox-app -p 8083:8080 toxictypoapp:1.0-SNAPSHOT"
+                sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHOT"
             }
             post{
                 always{
