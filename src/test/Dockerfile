@@ -1,7 +1,6 @@
 FROM python:2.7.18
 
 COPY . .
-EXPOSE 8080
 
 RUN pip install -r requirments.txt
 
