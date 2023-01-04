@@ -18,6 +18,9 @@ pipeline{
         }
 
         stage("build"){
+            when{
+                anyOf {  branch "main" branch "feature/*" }
+            }
             steps{
                 echo "========executing build========"
                 withMaven {
@@ -39,6 +42,29 @@ pipeline{
             }
         }
         stage("tests"){
+            steps{
+                echo "========executing tests========"
+                sh """
+                    docker ps 
+                    cd src/test
+                    docker build -t test_app .
+                    docker run --network test-net --name tests-app test_app
+                """
+            }
+            post{
+                always{
+                    echo "========tests are done========"
+                    sh "docker rm -f tests-app tox-app"
+                }
+                success{
+                    echo "========tests executed successfully========"
+                }
+                failure{
+                    echo "========tests execution failed========"
+                }
+            }
+        }
+        stage("deploy"){
             steps{
                 echo "========executing tests========"
                 sh """
