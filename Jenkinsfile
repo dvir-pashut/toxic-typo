@@ -47,7 +47,7 @@ pipeline{
                 sh """
                     cd src/test
                     docker build -t test-app .
-                    sleep 7
+                    sleep 6
                 """
             }
             post{
@@ -77,9 +77,6 @@ pipeline{
                     docker run  --network test-net --name tests-app2 -e key=270 -e t=120 -e app=tox-app2:8080 test-app:latest &
                     docker run --network test-net --name tests-app3 -e key=399 -e t=270 -e app=tox-app3:8080 test-app:latest
                 """
-                
-
-
             }
             post{
                 always{
