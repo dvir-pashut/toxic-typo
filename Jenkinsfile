@@ -42,10 +42,11 @@ pipeline{
             steps{
                 echo "========executing tests========"
                 sh """
+                    docker ps 
                     cd src/test
                     docker build -t test-app .
                     docker run --network test-net --name tests-app test-app
-                    
+
                 """
             }
             post{
