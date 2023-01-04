@@ -44,8 +44,8 @@ pipeline{
                 sh """
                     docker ps 
                     cd src/test
-                    docker build -t test-app .
-                    docker run --network test-net --name tests-app test-app
+                    docker build -t test_app .
+                    docker run --network test-net --name tests-app test_app
                 """
             }
             post{
