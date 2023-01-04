@@ -1,6 +1,5 @@
-FROM alpine
+FROM openjdk:8-jre-alpine3.9
 
-RUN apk add openjdk8-jre
 WORKDIR /app-exe
 COPY target .
 COPY enterypoint.sh .

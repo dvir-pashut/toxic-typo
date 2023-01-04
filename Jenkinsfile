@@ -21,7 +21,9 @@ pipeline{
                 echo "========executing build========"
                 withMaven {
                     sh "mvn verify"
-                }                
+                }
+                sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHO"
+                sh ""
             }
             post{
                 always{
@@ -35,7 +37,7 @@ pipeline{
                 }
             }
         }
-        stage("A"){
+        stage("tests"){
             steps{
                 echo "========executing A========"
 
