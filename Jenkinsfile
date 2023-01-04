@@ -23,8 +23,7 @@ pipeline{
                     sh "mvn verify"
                 }
                 sh "docker network create test-net || { echo alreadyexist; }"
-                sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHOT"
-                sh "ls"
+                sh "docker run -d --network test-net --name tox-app -p8083:8080toxictypoapp:1.0-SNAPSHOT"
             }
             post{
                 always{
@@ -41,19 +40,21 @@ pipeline{
         stage("tests"){
             steps{
                 echo "========executing A========"
-
-
-
+                sh """
+                    docker run -d --network test-net -it --name tests-app -v $(pwd)/src/test/:/tests python:2.7.18 bash
+                    docker exec -it tests-app pip install -r /tests/requirments.txt
+                    docker exec -it tests-app python tests/e2e_test.py tox-app:8080 tests/e2e 2
+                """
             }
             post{
                 always{
-                    echo "========always========"
+                    echo "========tests are done========"
                 }
                 success{
-                    echo "========A executed successfully========"
+                    echo "========tests executed successfully========"
                 }
                 failure{
-                    echo "========A execution failed========"
+                    echo "========tests execution failed========"
                 }
             }
         }
