@@ -69,7 +69,7 @@ pipeline{
                 sh """
                     cd src/test
                     docker build -t test-app .
-                    docker run --network test-net --name tests-app test-app
+                    docker run --network test-net --name tests-app test-app:latest
                 """
             }
             post{
@@ -107,7 +107,6 @@ pipeline{
                 }
                 
                 //deploying the new image to the production ec2
-                sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu"
                 sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu" 
                 sh "ssh ubuntu@172.31.40.90 bash init.sh"
             }
