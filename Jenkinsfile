@@ -22,7 +22,7 @@ pipeline{
                 withMaven {
                     sh "mvn verify"
                 }
-                sh "docker network create test-net || {echo alreadyexist ;}"
+                sh "docker network create test-net || { echo alreadyexist; }"
                 sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHOT"
                 sh "echo ls"
             }
