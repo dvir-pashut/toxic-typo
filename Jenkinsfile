@@ -23,7 +23,7 @@ pipeline{
                     sh "mvn verify"
                 }
                 sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHOT"
-                sh ""
+                sh "echo ls"
             }
             post{
                 always{
