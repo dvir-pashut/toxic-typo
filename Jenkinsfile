@@ -45,6 +45,12 @@ pipeline{
             }
         }
         stage("tests"){
+            when{
+                anyOf {
+                    branch "main"
+                    branch "feature/*"
+                }
+            }
             steps{
                 echo "========executing tests========"
                 sh """
@@ -68,25 +74,24 @@ pipeline{
             }
         }
         stage("deploy"){
+            when{
+                anyOf {
+                    branch "main"
+                }
+            }
             steps{
-                echo "========executing tests========"
-                sh """
-                    docker ps 
-                    cd src/test
-                    docker build -t test_app .
-                    docker run --network test-net --name tests-app test_app
-                """
+                echo "========executing deploy========"
+                
             }
             post{
                 always{
-                    echo "========tests are done========"
-                    sh "docker rm -f tests-app tox-app"
+                    echo "========deploy are done========"
                 }
                 success{
-                    echo "========tests executed successfully========"
+                    echo "========deploy executed successfully========"
                 }
                 failure{
-                    echo "========tests execution failed========"
+                    echo "========deploy execution failed========"
                 }
             }
         }
