@@ -16,6 +16,7 @@ pipeline{
                 sh "git checkout ${GIT_BRANCH}"
             }
         }
+        
         stage("build"){
             steps{
                 echo "========executing build========"
