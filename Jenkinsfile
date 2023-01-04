@@ -65,11 +65,11 @@ pipeline{
             }
             steps{
                 echo "========executing tests========"
-                running tests
                 sh """
                     cd src/test
                     docker build -t test-app .
                     docker run --network test-net --name tests-app test-app:latest
+                    docker run --network test-net --name tests-app2 test-app:latest
                 """
                 
 
@@ -78,7 +78,7 @@ pipeline{
             post{
                 always{
                     echo "========tests are done========"
-                    sh "docker rm -f tests-app tox-app"
+                    sh "docker rm -f tests-app2 tests-app tox-app"
                 }
                 success{
                     echo "========tests executed successfully========"
