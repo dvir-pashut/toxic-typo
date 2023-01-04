@@ -41,11 +41,13 @@ pipeline{
         stage("tests"){
             steps{
                 echo "========executing tests========"
-                sh "pwd"
-                sh "ls src/test"
-                sh "docker run -d --network test-net --name tests-app -it -v \$(pwd)/src/test:/tests python:2.7.18 bash"
-                sh "docker exec tests-app ls tests"
-                sh "docker exec tests-app python tests/e2e_test.py tox-app:8080 tests/e2e 2"
+                sh """
+                    cd src/test
+                    docker build -t test-app .
+                    docker run -d --network test-net --name tests-app test-app 
+
+                """
+                
             }
             post{
                 always{
