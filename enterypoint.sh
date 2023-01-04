@@ -1,4 +1,4 @@
 #!/bin/sh
+pushd target
 
-
-java -jar target/toxictypoapp-1.0-SNAPSHOT.jar
+java -jar toxictypoapp-1.0-SNAPSHOT.jar
