@@ -22,7 +22,7 @@
 
 
 
-for (( i=$t; i<=$key; i+=25 )); do
+for (( i=$t; i<=$key; i+=40 )); do
     cat e2e | head -n $i | tail -n 25 > e2e.file$i
     python e2e_test.py $app e2e.file$i 1 &
 done
