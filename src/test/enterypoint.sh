@@ -29,3 +29,14 @@ for (( i=0; i<=370; i+=25 )); do
 done
 cat e2e | head -n 400 | tail -n 25 > e2e.file
 python e2e_test.py tox-app:8080 e2e.file 1 
+
+sleep 1
+echo 1
+sleep 1
+echo 2
+sleep 1
+echo 3
+sleep 1
+echo 4
+sleep 1
+echo 5
