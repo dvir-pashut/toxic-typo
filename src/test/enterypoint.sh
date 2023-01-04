@@ -10,11 +10,11 @@ cat e2e | head -n 350 | tail -n 50 > e2e.301-350
 cat e2e | head -n 399 | tail -n 50 > e2e.350-399
 
 
-python e2e_test.py tox-app:8080 e2e.51-100  5 &
-python e2e_test.py tox-app:8080 e2e.101-150 5 &
-python e2e_test.py tox-app:8080 e2e.151-200 5 &
-python e2e_test.py tox-app:8080 e2e.201-250 5 &
-python e2e_test.py tox-app:8080 e2e.251-300 5 &
-python e2e_test.py tox-app:8080 e2e.350-399 5 
+python e2e_test.py tox-app:8080 e2e.51-100  1 &
+python e2e_test.py tox-app:8080 e2e.101-150 1 &
+python e2e_test.py tox-app:8080 e2e.151-200 1 &
+python e2e_test.py tox-app:8080 e2e.201-250 1 &
+python e2e_test.py tox-app:8080 e2e.251-300 1 &
+python e2e_test.py tox-app:8080 e2e.350-399 1 
 
 
