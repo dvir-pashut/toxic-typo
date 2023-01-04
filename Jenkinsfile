@@ -1,6 +1,10 @@
 pipeline{
     agent any
-    
+    options{
+        timestamps()
+        gitLabConnection('stuff')
+
+    }
     tools {
         maven "some name"
         jdk "java ledugma"
@@ -103,13 +107,15 @@ pipeline{
 
     post{
         always{
-            echo "========always========"
+            echo "========piplen ended!!!!!!!!!!!!!!!!!!========"
         }
         success{
             echo "========pipeline executed successfully ========"
+            updateGitlabCommitStatus name: "all good", state: "success" 
         }
         failure{
             echo "========pipeline execution failed========"
+            updateGitlabCommitStatus name: "error", state: "failed" 
         }
     }
 }

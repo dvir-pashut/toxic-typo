@@ -4,4 +4,4 @@ COPY . .
 
 RUN pip install -r requirments.txt
 
-ENTRYPOINT [ "python", "e2e_test.py", "tox-app:8080", "e2e", "5" ]
+ENTRYPOINT [ "python", "e2e_test.py", "tox-app:8080", "sanity", "5" ]
