@@ -25,7 +25,7 @@ pipeline{
                 sh "git checkout ${GIT_BRANCH}"
             }
         }
-        
+
         stage("build"){
             // happend only on branch main or feature
             when{
@@ -105,7 +105,8 @@ pipeline{
                 }
                 
                 //deploying the new image to the production ec2
-                sh "ssh ubuntu@13.39.47.121 bash init.sh"
+                sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu" 
+                sh "ssh ubuntu@172.31.40.90 bash init.sh"
             }
             
             post{
