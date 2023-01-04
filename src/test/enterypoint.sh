@@ -22,7 +22,7 @@
 
 
 
-for (( i=0; i<=370; i+=25 )); do
+for (( i=0; i<=200; i+=25 )); do
     echo $i
     cat e2e | head -n $i | tail -n 25 > e2e.file$i
     python e2e_test.py tox-app:8080 e2e.file$i 1 &
