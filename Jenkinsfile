@@ -54,7 +54,6 @@ pipeline{
             steps{
                 echo "========executing tests========"
                 sh """
-                    docker ps 
                     cd src/test
                     docker build -t test_app .
                     docker run --network test-net --name tests-app test_app
@@ -78,6 +77,7 @@ pipeline{
                 anyOf {
                     branch "main"
                 }
+                
             }
             steps{
                 echo "========executing deploy========"
