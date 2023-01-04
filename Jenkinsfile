@@ -83,7 +83,7 @@ pipeline{
             }
             steps{
                 echo "========executing deploy========"
-                sh "docker tag dvir-toxictypo toxictypoapp:1.0-SNAPSHOT"
+                sh "docker tag  toxictypoapp:1.0-SNAPSHOT dvir-toxictypo "
                 
                 script{
                     docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
