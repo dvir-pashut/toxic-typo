@@ -69,7 +69,7 @@ pipeline{
                 sh """
                     cd src/test
                     docker build -t test-app .
-                    docker run --network --enterypoint 'python e2e_test.py tox-app:8080 sanity 5' test-net --name tests-app test-app
+                    docker run --network test-net --name tests-app test-app
                 """
             }
             post{
