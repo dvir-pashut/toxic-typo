@@ -90,6 +90,7 @@ pipeline{
                     
                     }
                 }
+                sh "su jenkins"
                 sh "ssh ubuntu@13.39.47.121 bash init.sh"
             }
             post{
