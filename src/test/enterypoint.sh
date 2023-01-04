@@ -7,4 +7,4 @@ for (( i=0; i<=400; i+=50 )); do
     python e2e_test.py tox-app:8080 e2e.file$i 1 &
 done
 
-sleep 5
+sleep 20
