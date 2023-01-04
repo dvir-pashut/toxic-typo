@@ -9,7 +9,6 @@ pipeline{
         maven "some name"
         jdk "java ledugma"
     }
-    
     stages{
         stage("checkout"){
             steps{
@@ -30,7 +29,9 @@ pipeline{
             steps{
                 echo "========executing build========"
                 withMaven {
-                    sh "mvn verify"
+                     configFileProvider([configFile(fileId: '0a5edd42-4379-4509-a49e-d8ba1384edeb', variable: 'set')]) {
+                        sh "mvn -s ${set} deploy"
+                    } 
                 }
                 sh "docker network create test-net || { echo alreadyexist; }"
                 sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHOT"
