@@ -26,9 +26,8 @@ for (( i=0; i<=375; i+=25 )); do
     echo $i
     cat e2e | head -n $i | tail -n 25 > e2e.file$i
     python e2e_test.py tox-app:8080 e2e.file$i 1 &
-    sleep 1
 done
 cat e2e | head -n 400 | tail -n 25 > e2e.file
-    python e2e_test.py tox-app:8080 e2e.file 1 
+python e2e_test.py tox-app:8080 e2e.file 1 
 
 sleep 10 
