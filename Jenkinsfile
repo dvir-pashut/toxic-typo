@@ -87,10 +87,8 @@ pipeline{
                 script{
                     docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
                         docker.image("dvir-toxictypo").push()
-                    
                     }
                 }
-                //sh "su jenkins"
                 sh "ssh ubuntu@13.39.47.121 bash init.sh"
             }
             post{
