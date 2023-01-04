@@ -24,6 +24,6 @@
 
 for (( i=$t; i<=$key; i+=25 )); do
     cat e2e | head -n $i | tail -n 25 > e2e.file$i
-    python e2e_test.py tox-app:8080 e2e.file$i 1 &
+    python e2e_test.py $app e2e.file$i 1 &
 done
 wait

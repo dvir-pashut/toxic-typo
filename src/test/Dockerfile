@@ -4,4 +4,5 @@ COPY . .
 RUN pip install -r requirments.txt
 ENV key=200
 ENV t=0
+ENV app="asd"
 ENTRYPOINT [ "./enterypoint.sh"]
