@@ -44,7 +44,7 @@ pipeline{
                 sh """
                     cd src/test
                     docker build -t test-app .
-                    docker run -d --network test-net --name tests-app test-app 
+                    docker run --network test-net --name tests-app test-app 
 
                 """
                 
