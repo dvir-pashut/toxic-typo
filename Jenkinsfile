@@ -70,7 +70,7 @@ pipeline{
                     cd src/test
                     docker build -t test-app .
                     sleep 5
-                    docker run --network test-net --name tests-app -e key=200 -e t=25 -e app=tox-app:8080 test-app:latest &
+                    docker run -d --network test-net --name tests-app -e key=200 -e t=25 -e app=tox-app:8080 test-app:latest 
                     docker run --network test-net --name tests-app2 -e key=400 -e t=200 -e app=tox-app2:8080 test-app:latest
                 """
                 
