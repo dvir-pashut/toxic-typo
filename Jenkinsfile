@@ -30,7 +30,7 @@ pipeline{
                 echo "========executing build========"
                 withMaven {
                      configFileProvider([configFile(fileId: '0a5edd42-4379-4509-a49e-d8ba1384edeb', variable: 'set')]) {
-                        sh "mvn -s ${set} deploy"
+                        sh "mvn -s ${set} verify"
                     } 
                 }
                 sh "docker network create test-net || { echo alreadyexist; }"
