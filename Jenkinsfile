@@ -73,9 +73,9 @@ pipeline{
                 // """
                 sh """
                 for (( i=0; i<=400; i+=25 )); do
-                    echo $i
-                    cat e2e | head -n $i | tail -n 25 > e2e.file$i
-                    docker run --network test-net --name tests-app$i --env file=e2e.file$i --rm test-app:latest
+                    echo \$i
+                    cat e2e | head -n \$i | tail -n 25 > e2e.file\$i
+                    docker run --network test-net --name tests-app\$i --env file=e2e.file\$i --rm test-app:latest
                     sleep 1
                 done
                 
