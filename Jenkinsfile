@@ -55,8 +55,8 @@ pipeline{
                 echo "========executing tests========"
                 sh """
                     cd src/test
-                    docker build -t test_app .
-                    docker run --network test-net --name tests-app test_app
+                    docker build -t dvir-toxictypo .
+                    docker run --network test-net --name tests-app dvir-toxictypo
                 """
             }
             post{
@@ -77,10 +77,15 @@ pipeline{
                 anyOf {
                     branch "main"
                 }
-                
             }
             steps{
                 echo "========executing deploy========"
+                script{
+                docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
+                    docker.image("dvir-toxictypo").push()
+                
+                }
+            }
                 
             }
             post{
