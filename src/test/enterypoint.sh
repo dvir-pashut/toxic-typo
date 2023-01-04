@@ -22,10 +22,8 @@
 
 
 
-for (( i=0; i<=200; i+=25 )); do
-    echo $i
+for (( i=0; i<=400; i+=25 )); do
     cat e2e | head -n $i | tail -n 25 > e2e.file$i
     python e2e_test.py tox-app:8080 e2e.file$i 1 &
 done
-cat e2e | head -n 400 | tail -n 25 > e2e.file
-python e2e_test.py tox-app:8080 e2e.file 1 
+wait

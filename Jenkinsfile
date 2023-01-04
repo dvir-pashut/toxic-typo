@@ -69,6 +69,7 @@ pipeline{
                     cd src/test
                     docker build -t test-app .
                     docker run --network test-net --name tests-app test-app:latest
+                    docker run --network test-net --name tests-app2 test-app:latest
                 """
                 
 
