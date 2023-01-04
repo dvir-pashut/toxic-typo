@@ -19,7 +19,10 @@ pipeline{
 
         stage("build"){
             when{
-                anyOf {  branch "main" branch "feature/*" }
+                anyOf {
+                    branch "main"
+                    branch "feature/*"
+                }
             }
             steps{
                 echo "========executing build========"
