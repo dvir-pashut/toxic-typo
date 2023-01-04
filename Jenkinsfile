@@ -65,28 +65,21 @@ pipeline{
             }
             steps{
                 echo "========executing tests========"
-                //running tests
-                // sh """
-                //     cd src/test
-                //     docker build -t test-app .
-                //     docker run --network test-net --name tests-app test-app:latest
-                // """
+                running tests
                 sh """
-                for (( i=0; i<=400; i+=25 )); do
-                    echo \$i
-                    cat e2e | head -n \$i | tail -n 25 > e2e.file\$i
-                    docker run --network test-net --name tests-app\$i --env file=e2e.file\$i --rm test-app:latest
-                    sleep 1
-                done
-                
+                    cd src/test
+                    docker build -t test-app .
+                    docker run --network test-net --name tests-app1 test-app:latest
+                    docker run --network test-net --name tests-app2 test-app:latest
                 """
+                
 
 
             }
             post{
                 always{
                     echo "========tests are done========"
-                    sh "docker rm -f tests-app tox-app"
+                    sh "docker rm -f tests-app1 tests-app2 tox-app"
                 }
                 success{
                     echo "========tests executed successfully========"
