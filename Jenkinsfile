@@ -44,6 +44,11 @@ pipeline{
                 sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHOT"
                 sh "docker run -d --network test-net --name tox-app2 toxictypoapp:1.0-SNAPSHOT"
                 sh "docker run -d --network test-net --name tox-app3 toxictypoapp:1.0-SNAPSHOT"
+                sh """
+                    cd src/test
+                    docker build -t test-app .
+                    sleep 7
+                """
             }
             post{
                 always{
@@ -68,9 +73,6 @@ pipeline{
             steps{
                 echo "========executing tests========"
                 sh """
-                    cd src/test
-                    docker build -t test-app .
-                    sleep 8
                     docker run -d --network test-net --name tests-app -e key=120 -e t=30 -e app=tox-app:8080 test-app:latest 
                     docker run -d --network test-net --name tests-app2 -e key=270 -e t=120 -e app=tox-app2:8080 test-app:latest
                     docker run --network test-net --name tests-app3 -e key=399 -e t=270 -e app=tox-app3:8080 test-app:latest
