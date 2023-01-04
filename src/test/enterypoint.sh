@@ -15,7 +15,9 @@ python e2e_test.py tox-app:8080 e2e.101-150  &
 python e2e_test.py tox-app:8080 e2e.151-200  &
 python e2e_test.py tox-app:8080 e2e.201-250  &
 python e2e_test.py tox-app:8080 e2e.251-300  &
-python e2e_test.py tox-app:8080 e2e.350-399  
+python e2e_test.py tox-app:8080 e2e.350-399 
+
+sleep 20
 
 
 
