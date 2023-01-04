@@ -82,7 +82,7 @@ pipeline{
             post{
                 always{
                     echo "========tests are done========"
-                    sh "docker rm -f tests-app2 tests-app tox-app tox-app2 tox-app3 "
+                    sh "docker rm -f tests-app2 tests-app tox-app tox-app2 tox-app3 tests-app3 "
                 }
                 success{
                     echo "========tests executed successfully========"
