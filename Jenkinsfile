@@ -58,8 +58,8 @@ pipeline{
                 echo "========executing tests========"
                 sh """
                     cd src/test
-                    docker build -t dvir-toxictypo .
-                    docker run --network test-net --name tests-app dvir-toxictypo
+                    docker build -t test-app .
+                    docker run --network test-net --name tests-app test-app
                 """
             }
             post{
@@ -83,6 +83,8 @@ pipeline{
             }
             steps{
                 echo "========executing deploy========"
+                sh "docker tag dvir-toxictypo toxictypoapp:1.0-SNAPSHOT"
+                
                 script{
                     docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
                         docker.image("dvir-toxictypo").push()
