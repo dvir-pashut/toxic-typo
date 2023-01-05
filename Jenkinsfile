@@ -101,7 +101,7 @@ pipeline{
             steps{
                 echo "========executing deploy========"
                 
-                // taging the image so i will be able to send it to the repo
+                // taging the image so i will be able to send it to the repo//
                 sh "docker tag toxictypoapp:1.0-SNAPSHOT dvir-toxictypo "
                 
                 // publish the image to the ecr
