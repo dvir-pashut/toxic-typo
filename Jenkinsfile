@@ -34,26 +34,30 @@ pipeline{
                 }
             }
             steps{
+                // starting build
                 echo "========executing build========"
                 withMaven {
                      configFileProvider([configFile(fileId: '0a5edd42-4379-4509-a49e-d8ba1384edeb', variable: 'set')]) {
                         sh "mvn -s ${set} verify"
                     } 
                 }
+                
+                // creating network if not exist
                 sh "docker network create test-net || { echo alreadyexist; }"
+                
+                // starting the apps for the tests
                 sh "docker run -d --network test-net --name tox-app toxictypoapp:1.0-SNAPSHOT"
                 sh "docker run -d --network test-net --name tox-app2 toxictypoapp:1.0-SNAPSHOT"
                 sh "docker run -d --network test-net --name tox-app3 toxictypoapp:1.0-SNAPSHOT"
+                sh "sleep 7"
+                
+                // build the tests image and wait untill the apps are ready to get tested on 
                 sh """
                     cd src/test
                     docker build -t test-app .
-                    sleep 7
                 """
             }
             post{
-                always{
-                    echo "========always========"
-                }
                 success{
                     echo "========build executed successfully========"
                 }
@@ -72,16 +76,19 @@ pipeline{
             }
             steps{
                 echo "========executing tests========"
+                
+                //run the tests... 3 tests apps vs 3 apps 
                 sh """
-                    docker run  --network test-net --name tests-app -e key=120 -e t=20 -e app=tox-app:8080 test-app:latest &
-                    docker run  --network test-net --name tests-app2 -e key=240 -e t=120 -e app=tox-app2:8080 test-app:latest &
-                    docker run --network test-net --name tests-app3 -e key=399 -e t=270 -e app=tox-app3:8080 test-app:latest
+                    docker run  --network test-net --name tests-app -e t=20  -e key=120 -e app=tox-app:8080 test-app:latest &
+                    docker run  --network test-net --name tests-app2 -e t=120 -e key=240  -e app=tox-app2:8080 test-app:latest &
+                    docker run --network test-net --name tests-app3 -e t=270  -e key=399 -e app=tox-app3:8080 test-app:latest
                 """
             }
             post{
                 always{
                     echo "========tests are done========"
-                    sh "docker rm -f tests-app2 tests-app tox-app tox-app2 tox-app3 tests-app3 "
+                    // remove all tests continers on finish
+                    sh "docker rm -f tests-app2 tests-app tox-app tox-app2 tox-app3 tests-app3"
                 }
                 success{
                     echo "========tests executed successfully========"
