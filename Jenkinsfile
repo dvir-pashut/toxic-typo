@@ -112,6 +112,7 @@ pipeline{
                 }
                 
                 //deploying the new image to the production ec2
+                sh "ssh ubuntu@172.31.40.90 aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-3.amazonaws.com"
                 sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu" 
                 sh "ssh ubuntu@172.31.40.90 bash init.sh"
             }
