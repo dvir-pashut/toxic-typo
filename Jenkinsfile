@@ -6,12 +6,12 @@ pipeline{
         timestamps()
         
         // set gitlab connection where to sent an update
-        gitLabConnection('stuff')
+        gitLabConnection('my repo')
     }
     tools {
         // set tools to work with 
-        maven "some name"
-        jdk "java ledugma"
+        maven "maven 3.6.2"
+        jdk "java 8 kit"
     }
     stages{
         // check out and clean the workdir
