@@ -119,6 +119,7 @@ pipeline{
                 }
                 
             }
+        
             post{
                 always{
                     echo "========publish are done========"
@@ -144,7 +145,6 @@ pipeline{
                 //deploying the new image to the production ec2//
                 sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu" 
                 sh "ssh ubuntu@172.31.40.90 bash init.sh"
-            }
             }
             post{
                 always{
