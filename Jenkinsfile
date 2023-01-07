@@ -139,7 +139,7 @@ pipeline{
                 }
             }
             steps{
-                echo "========executing tests========"
+                echo "========executing deploy========"
                 
                 //deploying the new image to the production ec2//
                 sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu" 
@@ -148,13 +148,13 @@ pipeline{
             }
             post{
                 always{
-                    echo "========tests are done========"
+                    echo "========deploy are done========"
                 }
                 success{
-                    echo "========tests executed successfully========"
+                    echo "========deploy executed successfully========"
                 }
                 failure{
-                    echo "========tests execution failed========"
+                    echo "========deploy execution failed========"
                 }
             }
         }
