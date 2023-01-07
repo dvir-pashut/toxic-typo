@@ -79,9 +79,9 @@ pipeline{
                 
                 //run the tests... 3 tests apps vs 3 apps 
                 sh """
-                    docker run  --network test-net --name tests-app -e t=20  -e key=120 -e app=tox-app:8080 test-app:latest &
+                    docker run  --network test-net --name tests-app  -e  t=20 -e key=120  -e app=tox-app:8080 test-app:latest &
                     docker run  --network test-net --name tests-app2 -e t=120 -e key=240  -e app=tox-app2:8080 test-app:latest &
-                    docker run --network test-net --name tests-app3 -e t=270  -e key=399 -e app=tox-app3:8080 test-app:latest
+                    docker run  --network test-net --name tests-app3 -e t=270 -e key=399  -e app=tox-app3:8080 test-app:latest
                 """
             }
             post{
@@ -106,10 +106,10 @@ pipeline{
                 }
             }
             steps{
-                echo "========executing deploy========"
+                echo "========executing publish========"
                 
                 // taging the image so i will be able to send it to the repo//
-                sh "docker tag toxictypoapp:1.0-SNAPSHOT dvir-toxictypo "
+                sh "docker tag toxictypoapp:1.0-SNAPSHOT dvir-toxictypo"
                 
                 // publish the image to the ecr//
                 script{
@@ -117,9 +117,7 @@ pipeline{
                         docker.image("dvir-toxictypo").push()
                     }
                 }
-                
             }
-        
             post{
                 always{
                     echo "========publish are done========"
