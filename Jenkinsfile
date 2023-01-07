@@ -118,7 +118,7 @@ pipeline{
                     }
                 }
                 
-               
+            }
             post{
                 always{
                     echo "========publish are done========"
