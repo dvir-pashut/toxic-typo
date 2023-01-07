@@ -98,7 +98,7 @@ pipeline{
                 }
             }
         }
-        stage("deploy"){
+        stage("publish"){
             // happend only on branch main 
             when{
                 anyOf {
@@ -118,23 +118,48 @@ pipeline{
                     }
                 }
                 
+               
+            post{
+                always{
+                    echo "========publish are done========"
+                }
+                success{
+                    echo "========publish executed successfully========"
+                }
+                failure{
+                    echo "========publish execution failed========"
+                }
+            }
+        }
+        stage("deploy"){
+            // happend only on branch main or feature
+            when{
+                anyOf {
+                    branch "main"
+                }
+            }
+            steps{
+                echo "========executing tests========"
+                
                 //deploying the new image to the production ec2//
                 sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu" 
                 sh "ssh ubuntu@172.31.40.90 bash init.sh"
             }
-            
+            }
             post{
                 always{
-                    echo "========deploy are done========"
+                    echo "========tests are done========"
                 }
                 success{
-                    echo "========deploy executed successfully========"
+                    echo "========tests executed successfully========"
                 }
                 failure{
-                    echo "========deploy execution failed========"
+                    echo "========tests execution failed========"
                 }
             }
         }
+
+
     }
     post{
         always{
