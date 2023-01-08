@@ -4,6 +4,7 @@ pipeline{
         
         // set time stamps on the log
         timestamps()
+        ansiColor()
         
         // set gitlab connection where to sent an update
         gitLabConnection('my repo')
