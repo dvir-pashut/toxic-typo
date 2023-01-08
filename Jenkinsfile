@@ -6,12 +6,12 @@ pipeline{
         timestamps()
         
         // set gitlab connection where to sent an update
-        gitLabConnection('stuff')
+        gitLabConnection('my repo')
     }
     tools {
         // set tools to work with 
-        maven "some name"
-        jdk "java ledugma"
+        maven "maven 3.6.2"
+        jdk "java 8 kit"
     }
     stages{
         // check out and clean the workdir
@@ -79,9 +79,9 @@ pipeline{
                 
                 //run the tests... 3 tests apps vs 3 apps 
                 sh """
-                    docker run  --network test-net --name tests-app -e t=20  -e key=120 -e app=tox-app:8080 test-app:latest &
+                    docker run  --network test-net --name tests-app  -e  t=20 -e key=120  -e app=tox-app:8080 test-app:latest &
                     docker run  --network test-net --name tests-app2 -e t=120 -e key=240  -e app=tox-app2:8080 test-app:latest &
-                    docker run --network test-net --name tests-app3 -e t=270  -e key=399 -e app=tox-app3:8080 test-app:latest
+                    docker run  --network test-net --name tests-app3 -e t=270 -e key=399  -e app=tox-app3:8080 test-app:latest
                 """
             }
             post{
@@ -98,8 +98,40 @@ pipeline{
                 }
             }
         }
-        stage("deploy"){
+        stage("publish"){
             // happend only on branch main 
+            when{
+                anyOf {
+                    branch "main"
+                }
+            }
+            steps{
+                echo "========executing publish========"
+                
+                // taging the image so i will be able to send it to the repo//
+                sh "docker tag toxictypoapp:1.0-SNAPSHOT dvir-toxictypo"
+                
+                // publish the image to the ecr//
+                script{
+                    docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
+                        docker.image("dvir-toxictypo").push()
+                    }
+                }
+            }
+            post{
+                always{
+                    echo "========publish are done========"
+                }
+                success{
+                    echo "========publish executed successfully========"
+                }
+                failure{
+                    echo "========publish execution failed========"
+                }
+            }
+        }
+        stage("deploy"){
+            // happend only on branch main or feature
             when{
                 anyOf {
                     branch "main"
@@ -108,22 +140,10 @@ pipeline{
             steps{
                 echo "========executing deploy========"
                 
-                // taging the image so i will be able to send it to the repo//
-                sh "docker tag toxictypoapp:1.0-SNAPSHOT dvir-toxictypo "
-                
-                // publish the image to the ecr//
-                script{
-                    docker.withRegistry("http://644435390668.dkr.ecr.eu-west-3.amazonaws.com", "ecr:eu-west-3:aws-develeap") {
-                        docker.image("dvir-toxictypo").push()
-                    }
-                }
-                
                 //deploying the new image to the production ec2//
-                sh "ssh ubuntu@172.31.40.90 aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-3.amazonaws.com"
-                sh "scp init.sh ubuntu@172.31.40.90:/home/ubuntu" 
-                sh "ssh ubuntu@172.31.40.90 bash init.sh"
+                sh "scp init.sh ubuntu@172.31.17.41:/home/ubuntu" 
+                sh "ssh ubuntu@172.31.17.41 bash init.sh"
             }
-            
             post{
                 always{
                     echo "========deploy are done========"
@@ -136,6 +156,8 @@ pipeline{
                 }
             }
         }
+
+
     }
     post{
         always{
