@@ -24,7 +24,6 @@ pipeline{
                 sh "git checkout ${GIT_BRANCH}"
             }
         }
-
         stage("build"){
             // happend only on branch main or feature
             when{
@@ -79,9 +78,9 @@ pipeline{
                 
                 //run the tests... 3 tests apps vs 3 apps 
                 sh """
-                    docker run  --network test-net --name tests-app  -e  t=20 -e key=120  -e app=tox-app:8080 test-app:latest &
-                    docker run  --network test-net --name tests-app2 -e t=120 -e key=240  -e app=tox-app2:8080 test-app:latest &
-                    docker run  --network test-net --name tests-app3 -e t=270 -e key=399  -e app=tox-app3:8080 test-app:latest
+                    docker run  --network test-net --name tests-app  -e  from=20 -e to=120  -e app=tox-app:8080 test-app:latest &
+                    docker run  --network test-net --name tests-app2 -e from=120 -e to=240  -e app=tox-app2:8080 test-app:latest &
+                    docker run  --network test-net --name tests-app3 -e from=270 -e to=399  -e app=tox-app3:8080 test-app:latest
                 """
             }
             post{
