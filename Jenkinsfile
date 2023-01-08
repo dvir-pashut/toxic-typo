@@ -24,6 +24,7 @@ pipeline{
                 sh "git checkout ${GIT_BRANCH}"
             }
         }
+        
         stage("build"){
             // happend only on branch main or feature
             when{
