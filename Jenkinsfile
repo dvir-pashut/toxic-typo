@@ -129,7 +129,6 @@ pipeline{
                     echo "========publish execution failed========"
                 }
             }
-        }
         stage("deploy"){
             // happend only on branch main or feature
             when{
